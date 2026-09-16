@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DateWithYou</title>
+<style>
+:root{
+  --bg:#fffaf8; --card:rgba(255,255,255,.88); --pink:#df7182; --pink2:#f5a7ae;
+  --pink3:#fff0ef; --brown:#593b35; --muted:#927771; --line:#f1e1dc;
+  --shadow:0 12px 32px rgba(125,70,60,.075);
+}
+*{box-sizing:border-box}
+html,body{letter-spacing:0;word-spacing:0;text-justify:none}
+.screen,.screen *{letter-spacing:0;word-spacing:0}
+body{margin:0;font-family:Arial,"Segoe UI",sans-serif;background:
+ radial-gradient(circle at 10% 10%,#ffece9 0 4px,transparent 5px),
+ radial-gradient(circle at 85% 20%,#ffe1e3 0 3px,transparent 4px),var(--bg);
+ color:var(--brown);position:relative;overflow-x:hidden}
+body:before,body:after{content:"♡";position:fixed;color:#f4bdc3;font:26px Arial,"Segoe UI",sans-serif;opacity:.34;pointer-events:none;z-index:0;animation:floatHeart 8s ease-in-out infinite}
+body:before{left:7%;top:20%;}body:after{right:8%;bottom:17%;animation-delay:-4s}
+@keyframes floatHeart{0%,100%{transform:translateY(0) rotate(-10deg);opacity:.18}50%{transform:translateY(-18px) rotate(10deg);opacity:.4}}
+button,input{font:inherit}
+button{cursor:pointer;transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+button:hover{transform:translateY(-2px)}
+.app{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px;position:relative;z-index:1}
+.phone{width:min(430px,100%);min-height:760px;background:rgba(255,253,251,.9);border:1px solid #f1e2de;border-radius:30px;box-shadow:0 24px 70px rgba(102,57,48,.11);overflow:hidden;position:relative;backdrop-filter:blur(8px)}
+.top{height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid #f5e9e5;background:rgba(255,250,248,.78)}
+.brand{font-weight:700;letter-spacing:.2px}
+.nav{font-size:12px;color:var(--muted);display:flex;gap:16px;align-items:center}
+.heart{font-size:21px;color:var(--pink);font-family:Arial,"Segoe UI",sans-serif}
+.progress{padding:18px 22px 0}
+.bar{height:6px;background:#f4dfdb;border-radius:99px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,var(--pink),#e65f73);border-radius:99px;transition:.3s}
+.step{font-size:11px;color:var(--muted);margin-top:6px}
+.screen{padding:18px 22px 28px;min-height:690px;display:flex;flex-direction:column;animation:screenIn .38s ease both}
+@keyframes screenIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h1{font-size:29px;line-height:1.15;margin:18px 0 11px;color:var(--brown);font-weight:600}
+h2{font-size:25px;line-height:1.2;margin:17px 0 10px;font-weight:600}
+p{color:var(--muted);line-height:1.65}
+.center{text-align:center}
+.hero{font-size:55px;margin:25px 0 4px}
+.hero-image{display:block;width:min(290px,88%);height:220px;margin:22px auto 18px;object-fit:contain}
+.quote{font-style:italic;font-size:14px;margin:25px 0}
+.primary,.secondary{width:100%;border:0;border-radius:15px;padding:14px 18px;font-weight:750}
+.primary{background:linear-gradient(135deg,var(--pink2),var(--pink));color:#fff;box-shadow:0 8px 18px rgba(234,113,128,.18)}
+.primary:hover{box-shadow:0 11px 22px rgba(234,113,128,.27)}
+.secondary{background:#fff7f5;color:var(--brown);border:1px solid #f2deda}
+.actions{margin-top:auto;display:grid;gap:10px}
+.option{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px;margin:11px 0;box-shadow:var(--shadow);display:grid;grid-template-columns:92px 1fr;gap:15px;align-items:center}
+.option img,.pic{width:92px;height:92px;border-radius:16px;object-fit:contain;background:linear-gradient(135deg,#f9c5c8,#ffece7);display:flex;align-items:center;justify-content:center;font-size:45px}
+.option .card-image{padding:8px}
+.option h3{margin:0 0 6px;font-size:18px}
+.option ul{padding-left:18px;margin:0;color:var(--muted);font-size:13px;line-height:1.7}
+.badge{display:inline-block;background:#fff0ef;color:var(--pink);padding:4px 8px;border-radius:99px;font-size:11px;font-weight:800;float:right}
+.foods{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.food{border:1px solid var(--line);background:#fff;border-radius:15px;padding:12px;text-align:center}
+.food .food-image{display:block;width:58px;height:58px;margin:0 auto 4px;object-fit:contain}.food .food-placeholder{font-size:34px;height:58px;display:flex;align-items:center;justify-content:center}.food span{display:block;font-weight:700;font-size:13px;margin-top:4px}
+.food.selected{border:2px solid var(--pink);background:#fff0ef}
+.calendar{background:#fff;border:1px solid var(--line);border-radius:20px;padding:15px;margin-top:16px;box-shadow:var(--shadow)}
+.month{display:flex;justify-content:space-between;font-weight:800;margin-bottom:12px}
+.week,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center}
+.week{font-size:10px;color:var(--muted);margin-bottom:6px}.days button{border:0;background:transparent;border-radius:50%;aspect-ratio:1;color:var(--brown)}
+.days button:hover,.days button.selected{background:var(--pink);color:#fff}
+.times{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0}
+.time{padding:12px;border:1px solid var(--line);background:#fff;border-radius:13px}.time.selected{background:var(--pink);color:#fff;border-color:var(--pink)}
+.detail{background:#fff;border:1px solid var(--line);border-radius:20px;padding:17px;margin:20px 0;box-shadow:var(--shadow)}
+.row{display:grid;grid-template-columns:110px 1fr;gap:10px;padding:9px 0;border-bottom:1px dashed #efdcd7;font-size:14px}
+.row:last-child{border-bottom:0}.label{color:var(--muted)}
+.success{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:650px}
+.envelope{display:block;width:min(210px,70%);height:170px;margin:10px auto 18px;object-fit:contain}
+.cat-note{display:block;width:90px;height:72px;margin:4px auto 14px;object-fit:contain}
+.detail-image{display:block;width:100%;height:140px;border-radius:16px;background:linear-gradient(135deg,#f9c5c8,#ffece7);object-fit:contain;padding:8px}
+.note{background:#fff;border:1px solid var(--line);padding:28px 20px;border-radius:16px;box-shadow:var(--shadow);width:100%}
+.small{font-size:12px;color:var(--muted)}
+@media(min-width:700px){.phone{width:430px}.app{background:linear-gradient(135deg,#fff7f4,#fde9e6)}}
+</style>
+</head>
+<body>
+<div class="app"><div class="phone">
+  <div class="top"><div class="brand">DateWithYou</div><div class="nav"><span>Kế hoạch</span><span>Little notes</span><span class="heart">♡</span></div></div>
+  <div class="progress"><div class="bar"><div id="fill" class="fill"></div></div><div id="step" class="step"></div></div>
+  <main id="screen" class="screen"></main>
+</div></div>
+
+<script>
+const state={step:0, plan:null, food:"Đồ Nhật", date:"18/09/2026", time:"Tối", movie:"Hài"};
+const foods=["Đồ Hàn","Đồ Nhật","Đồ Ý","Đồ Việt","Món khác"];
+const movies=["Hài","Tình cảm","Trinh thám","Kinh dị","Khoa học viễn tưởng","Hoạt hình"];
+
+function formatDate(dateStr){
+  const [d,m,y]=dateStr.split("/").map(Number);
+  const days=["Chủ Nhật","Thứ Hai","Thứ Ba","Thứ Tư","Thứ Năm","Thứ Sáu","Thứ Bảy"];
+  const weekday=days[new Date(y,m-1,d).getDay()];
+  return `${weekday}, ${String(d).padStart(2,"0")}/${String(m).padStart(2,"0")}/${y}`;
+}
+
+function render(){
+  const s=document.getElementById("screen"), fill=document.getElementById("fill"), step=document.getElementById("step");
+  fill.style.width=(state.step===0?0:state.step===5?100:state.step*20)+"%";
+  step.textContent=state.step===0?"":`${state.step}/5`;
+
+  if(state.step===0){
+    s.innerHTML=`<div class="center">
+      <div class="hero">♡</div><h1>First Date?</h1>
+      <p>Không phải kế hoạch hoàn hảo<br>mà là bắt đầu của nhiều điều đẹp hơn.</p>
+      <img class="hero-image" src="assets/couple.png" alt="">
+      <div class="actions"><button class="primary" onclick="state.step=1;render()">Xem kế hoạch của anh →</button>
+      <button class="secondary" onclick="state.step=1;render()">Hay mình bắt đầu nhé? ♡</button></div>
+      <img class="cat-note" src="assets/cat.png" alt="">
+      <div class="quote">“Đi đâu không quan trọng,<br>quan trọng là đi cùng ai...”</div>
+    </div>`;
+  } else if(state.step===1){
+    s.innerHTML=`<h2>Hai phương án cho buổi hẹn ♡</h2><p>Không có lựa chọn đúng hay sai,<br>chỉ có lựa chọn khiến em thấy vui hơn thôi ♡</p>
+      <div class="option"><img class="pic card-image" src="assets/chill.png" alt=""><div><span class="badge">01</span><h3>Ăn & Chill</h3><ul><li>Ăn một bữa thật ngon</li><li>Dạo Hồ Tây</li><li>Ăn kem / uống cà phê</li><li>Ngồi nói chuyện thật lâu</li></ul></div></div>
+      <button class="primary" onclick="state.plan='Ăn & Chill';state.step=2;render()">Chọn phương án này ♡</button>
+      <div class="option"><img class="pic card-image" src="assets/movie.png" alt=""><div><span class="badge">02</span><h3>Ăn & Phim</h3><ul><li>Ăn món em thích</li><li>Đi xem phim</li><li>Em chọn thể loại phim</li><li>Cùng xem rồi kiếm chuyện để nói tiếp</li></ul></div></div>
+      <button class="primary" onclick="state.plan='Ăn & Phim';state.step=2;render()">Chọn phương án này ♡</button>`;
+  } else if(state.step===2){
+    s.innerHTML=`<h2>Hôm đó mình ăn gì nhỉ? 🍴</h2><p>Em chọn món, anh chọn quán.<br>Để anh tìm một chỗ thật xinh và hợp với hai đứa nhé!</p>
+      <div class="foods">${foods.map((x,i)=>`<button class="food ${state.food===x?'selected':''}" onclick="state.food='${x}';render()">${i<4?`<img class="food-image" src="assets/${["korean.png","japanese.png","italian.png","vietnamese.png"][i]}" alt="">`:`<div class="food-placeholder">?</div>`}<span>${x}</span></button>`).join("")}</div>
+      <div class="quote">Chỉ cần là món em thích<br>thì chắc chắn sẽ ngon hơn bình thường. ♡</div>
+      <div class="actions"><button class="secondary" onclick="state.step=1;render()">← Quay lại</button><button class="primary" onclick="state.step=3;render()">Tiếp tục →</button></div>`;
+  } else if(state.step===3){
+    s.innerHTML=`<h2>Khi nào em rảnh? 📅</h2><p>Chọn một ngày phù hợp nhé,<br>anh sẽ sắp xếp mọi thứ còn lại!</p>
+      <div class="calendar"><div class="month"><span>‹</span><b>Tháng 9, 2026</b><span>›</span></div>
+      <div class="week">${["T2","T3","T4","T5","T6","T7","CN"].map(x=>`<span>${x}</span>`).join("")}</div>
+      <div class="days">${Array.from({length:1},()=>`<span></span>`).join("")}${Array.from({length:30},(_,i)=>`<button class="${i+1===18?'selected':''}" onclick="state.date='${i+1}/09/2026';document.querySelectorAll('.days button').forEach(b=>b.classList.remove('selected'));this.classList.add('selected')">${i+1}</button>`).join("")}</div></div>
+      <p style="margin-bottom:4px"><b>Chọn khung giờ:</b></p><div class="times">${["Sáng","Chiều","Tối"].map(x=>`<button class="time ${state.time===x?'selected':''}" onclick="state.time='${x}';render()">${x}</button>`).join("")}</div>
+      <div class="actions"><button class="secondary" onclick="state.step=2;render()">← Quay lại</button><button class="primary" onclick="state.step=4;render()">Tiếp tục →</button></div>`;
+  } else if(state.step===4){
+    const isMovie=state.plan==="Ăn & Phim";
+    s.innerHTML=isMovie?`<h2>Nếu chọn Ăn & Phim 🎬</h2><img class="detail-image" src="assets/movie.png" alt=""><div class="detail"><div class="row"><b>🍽️ Ăn tối</b><span>Một bữa ăn ngon theo lựa chọn của em</span></div><div class="row"><b>🎬 Xem phim</b><span>Cùng nhau thưởng thức một bộ phim hay</span></div></div>
+      <p><b>Em thích thể loại phim nào?</b></p><div class="foods" style="grid-template-columns:repeat(2,1fr)">${movies.map(x=>`<button class="food ${state.movie===x?'selected':''}" onclick="state.movie='${x}';render()"><span>${x}</span></button>`).join("")}</div>
+      <div class="actions"><button class="secondary" onclick="state.step=3;render()">← Quay lại</button><button class="primary" onclick="state.step=5;render()">Chọn phương án này ♡</button></div>`
+      :`<h2>Nếu chọn Ăn & Chill 🌿</h2><img class="detail-image" src="assets/chill.png" alt=""><div class="detail"><div class="row"><b>🍜 Ăn tối</b><span>Một bữa ăn thật ngon ở một quán xinh</span></div><div class="row"><b>🌅 Dạo Hồ Tây</b><span>Ngắm hoàng hôn, hít thở không khí mát mẻ</span></div><div class="row"><b>🍨 Ăn kem / Cà phê</b><span>Một chút ngọt ngào cho buổi tối thêm dễ chịu</span></div><div class="row"><b>💬 Nói chuyện</b><span>Về những câu chuyện không vội vã...</span></div></div>
+      <img class="detail-image" src="assets/ho-tay.png" alt=""><div class="actions"><button class="secondary" onclick="state.step=3;render()">← Quay lại</button><button class="primary" onclick="state.step=5;render()">Chọn phương án này ♡</button></div>`;
+  } else if(state.step===5){
+    s.innerHTML=`<h2>Xác nhận lịch hẹn nhé? 💌</h2><p>Em xem lại thông tin, nếu ổn thì bấm phê duyệt nha!</p>
+      <div class="detail">
+        <div class="row"><span class="label">Phương án</span><b>${state.plan}</b></div>
+        <div class="row"><span class="label">Ăn thử</span><b>${state.food}</b></div>
+        <div class="row"><span class="label">Ngày hẹn</span><b>${formatDate(state.date)}</b></div>
+        <div class="row"><span class="label">Khung giờ</span><b>${state.time}</b></div>
+        <div class="row"><span class="label">Địa điểm</span><b>Anh sẽ chọn và thông báo sau ♡</b></div>
+        <div class="row"><span class="label">Ghi chú</span><span>Mong được đón em và có một buổi tối thật vui!</span></div>
+      </div>
+      <div class="actions"><button class="secondary" onclick="state.step=4;render()">← Chỉnh sửa</button><button class="primary" onclick="state.step=6;render()">Phê duyệt buổi hẹn ♡</button></div>`;
+  } else {
+    s.innerHTML=`<div class="success"><img class="envelope" src="assets/envelope.png" alt=""><div class="note"><div class="small">DateWithYou</div><h1 style="font-size:30px">Đã chốt kèo! 💕</h1><p>Cảm ơn em vì đã đồng ý.<br>Anh thật sự rất mong chờ buổi hẹn này!</p><div style="font-size:32px">♡</div></div><p>“Hẹn gặp em ở một phiên bản thật đáng yêu nhé! ♡”</p><button class="secondary" onclick="state.step=0;render()">Quay về trang chủ</button></div>`;
+  }
+}
+render();
+</script>
+</body>
+</html>
