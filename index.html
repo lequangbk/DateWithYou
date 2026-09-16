@@ -28,8 +28,7 @@ button:hover{transform:translateY(-2px)}
 .top{height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid #f5e9e5;background:rgba(255,250,248,.78)}
 .brand{font-weight:700;letter-spacing:.2px}
 .nav{font-size:12px;color:var(--muted);display:flex;gap:16px;align-items:center}
-.heart{font-size:21px;color:var(--pink);font-family:Arial,"Segoe UI",sans-serif}
-.music-toggle{border:1px solid #f2deda;background:#fff7f5;color:var(--pink);width:28px;height:28px;border-radius:50%;padding:0;font-weight:700;font-size:15px;line-height:26px;box-shadow:none}.music-toggle.on{background:#fff0ef;border-color:#f3b1ba}.music-toggle:hover{transform:none}
+.heart{font-size:21px;color:var(--pink);font-family:Arial,"Segoe UI",sans-serif}.music-toggle{border:1px solid #f2deda;background:#fff7f5;color:var(--pink);width:28px;height:28px;border-radius:50%;padding:0;font-weight:700;font-size:15px;line-height:26px}.music-toggle.on{background:#fff0ef;border-color:#f3b1ba}
 .progress{padding:18px 22px 0}
 .bar{height:6px;background:#f4dfdb;border-radius:99px;overflow:hidden}
 .fill{height:100%;background:linear-gradient(90deg,var(--pink),#e65f73);border-radius:99px;transition:.3s}
@@ -83,48 +82,31 @@ p{color:var(--muted);line-height:1.65}
   <div class="progress"><div class="bar"><div id="fill" class="fill"></div></div><div id="step" class="step"></div></div>
   <main id="screen" class="screen"></main><audio id="bgMusic" preload="auto" loop><source src="assets/datewithyou-music.wav" type="audio/wav"></audio>
 </div></div>
-
 <script>
 const state={step:0, plan:null, food:"Đồ Nhật", date:"18/09/2026", time:"Tối", movie:"Hài"};
 const foods=["Đồ Hàn","Đồ Nhật","Đồ Ý","Đồ Việt","Món khác"];
 const movies=["Hài","Tình cảm","Trinh thám","Kinh dị","Khoa học viễn tưởng","Hoạt hình"];
-const bgMusic=document.getElementById("bgMusic");
-const musicToggle=document.getElementById("musicToggle");
-function setMusic(on){
-  bgMusic.volume=0.22;
-  if(on){
-    bgMusic.play().then(()=>{
-      musicToggle.classList.add("on");
-      musicToggle.textContent="♫";
-    }).catch(()=>{});
-  }else{
-    bgMusic.pause();
-    musicToggle.classList.remove("on");
-    musicToggle.textContent="♩";
-  }
-}
-musicToggle.addEventListener("click",()=>setMusic(bgMusic.paused));
-
-
+const bgMusic=document.getElementById("bgMusic"), musicToggle=document.getElementById("musicToggle");
+function startMusic(){bgMusic.volume=.22;bgMusic.play().then(()=>musicToggle.classList.add("on")).catch(()=>{});}
+function toggleMusic(){if(bgMusic.paused)startMusic();else{bgMusic.pause();musicToggle.classList.remove("on");}}
+musicToggle.addEventListener("click",toggleMusic);
 function formatDate(dateStr){
   const [d,m,y]=dateStr.split("/").map(Number);
   const days=["Chủ Nhật","Thứ Hai","Thứ Ba","Thứ Tư","Thứ Năm","Thứ Sáu","Thứ Bảy"];
   const weekday=days[new Date(y,m-1,d).getDay()];
   return `${weekday}, ${String(d).padStart(2,"0")}/${String(m).padStart(2,"0")}/${y}`;
 }
-
 function render(){
   const s=document.getElementById("screen"), fill=document.getElementById("fill"), step=document.getElementById("step");
   fill.style.width=(state.step===0?0:state.step===5?100:state.step*20)+"%";
   step.textContent=state.step===0?"":`${state.step}/5`;
-
   if(state.step===0){
     s.innerHTML=`<div class="center">
       <div class="hero">♡</div><h1>First Date?</h1>
       <p>Không phải kế hoạch hoàn hảo<br>mà là bắt đầu của nhiều điều đẹp hơn.</p>
       <img class="hero-image" src="assets/couple.png" alt="">
-      <div class="actions"><button class="primary" onclick="setMusic(true);state.step=1;render()">Xem kế hoạch của anh →</button>
-      <button class="secondary" onclick="setMusic(true);state.step=1;render()">Hay mình bắt đầu nhé? ♡</button></div>
+      <div class="actions"><button class="primary" onclick="startMusic();state.step=1;render()">Xem kế hoạch của anh →</button>
+      <button class="secondary" onclick="startMusic();state.step=1;render()">Hay mình bắt đầu nhé? ♡</button></div>
       <img class="cat-note" src="assets/cat.png" alt="">
       <div class="quote">“Đi đâu không quan trọng,<br>quan trọng là đi cùng ai...”</div>
     </div>`;
