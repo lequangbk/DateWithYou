@@ -1,23 +1,14 @@
-# DateWithYou demo
+# DateWithYou
 
-Đây là prototype web 1 file dựa trên ảnh tham khảo.
+Website first-date invitation for September 2026.
 
-## Cách xem
-1. Giải nén thư mục.
-2. Mở `index.html` bằng Chrome.
-3. Bấm các nút để đi qua 7 màn hình.
+## Music
+`assets/datewithyou-music.wav` is an original gentle ambient/piano-style loop generated for this project.
+Because browsers usually block autoplay with sound, music starts after the visitor taps one of the first-page buttons.
+The small `♫` button in the header toggles music on/off.
 
-## Nếu dùng VS Code
-- Mở thư mục này bằng VS Code.
-- Cài extension `Live Server`.
-- Chuột phải `index.html` -> `Open with Live Server`.
+## Run
+Open `index.html` using Five Server / Live Server.
 
-## Luồng hiện tại
-Trang chủ -> chọn phương án -> chọn món -> chọn ngày/giờ -> chi tiết -> xác nhận -> Đã chốt kèo.
-
-## Bước phát triển tiếp theo
-- thay emoji bằng ảnh/illustration thật
-- thêm tên người nhận và lời nhắn
-- lưu lựa chọn vào database
-- tạo link riêng để gửi cho bạn nữ
-- thêm backend/email/Telegram nếu muốn nhận thông báo khi cô ấy bấm "Phê duyệt"
+## GitHub Pages
+Push the whole folder, including `assets/`, to the existing DateWithYou repository and publish `main` / root.

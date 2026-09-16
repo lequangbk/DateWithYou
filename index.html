@@ -29,6 +29,7 @@ button:hover{transform:translateY(-2px)}
 .brand{font-weight:700;letter-spacing:.2px}
 .nav{font-size:12px;color:var(--muted);display:flex;gap:16px;align-items:center}
 .heart{font-size:21px;color:var(--pink);font-family:Arial,"Segoe UI",sans-serif}
+.music-toggle{border:1px solid #f2deda;background:#fff7f5;color:var(--pink);width:28px;height:28px;border-radius:50%;padding:0;font-weight:700;font-size:15px;line-height:26px;box-shadow:none}.music-toggle.on{background:#fff0ef;border-color:#f3b1ba}.music-toggle:hover{transform:none}
 .progress{padding:18px 22px 0}
 .bar{height:6px;background:#f4dfdb;border-radius:99px;overflow:hidden}
 .fill{height:100%;background:linear-gradient(90deg,var(--pink),#e65f73);border-radius:99px;transition:.3s}
@@ -78,15 +79,32 @@ p{color:var(--muted);line-height:1.65}
 </head>
 <body>
 <div class="app"><div class="phone">
-  <div class="top"><div class="brand">DateWithYou</div><div class="nav"><span>Kế hoạch</span><span>Little notes</span><span class="heart">♡</span></div></div>
+  <div class="top"><div class="brand">DateWithYou</div><div class="nav"><span>Kế hoạch</span><span>Little notes</span><button id="musicToggle" class="music-toggle" aria-label="Bật hoặc tắt nhạc">♫</button><span class="heart">♡</span></div></div>
   <div class="progress"><div class="bar"><div id="fill" class="fill"></div></div><div id="step" class="step"></div></div>
-  <main id="screen" class="screen"></main>
+  <main id="screen" class="screen"></main><audio id="bgMusic" preload="auto" loop><source src="assets/datewithyou-music.wav" type="audio/wav"></audio>
 </div></div>
 
 <script>
 const state={step:0, plan:null, food:"Đồ Nhật", date:"18/09/2026", time:"Tối", movie:"Hài"};
 const foods=["Đồ Hàn","Đồ Nhật","Đồ Ý","Đồ Việt","Món khác"];
 const movies=["Hài","Tình cảm","Trinh thám","Kinh dị","Khoa học viễn tưởng","Hoạt hình"];
+const bgMusic=document.getElementById("bgMusic");
+const musicToggle=document.getElementById("musicToggle");
+function setMusic(on){
+  bgMusic.volume=0.22;
+  if(on){
+    bgMusic.play().then(()=>{
+      musicToggle.classList.add("on");
+      musicToggle.textContent="♫";
+    }).catch(()=>{});
+  }else{
+    bgMusic.pause();
+    musicToggle.classList.remove("on");
+    musicToggle.textContent="♩";
+  }
+}
+musicToggle.addEventListener("click",()=>setMusic(bgMusic.paused));
+
 
 function formatDate(dateStr){
   const [d,m,y]=dateStr.split("/").map(Number);
@@ -105,8 +123,8 @@ function render(){
       <div class="hero">♡</div><h1>First Date?</h1>
       <p>Không phải kế hoạch hoàn hảo<br>mà là bắt đầu của nhiều điều đẹp hơn.</p>
       <img class="hero-image" src="assets/couple.png" alt="">
-      <div class="actions"><button class="primary" onclick="state.step=1;render()">Xem kế hoạch của anh →</button>
-      <button class="secondary" onclick="state.step=1;render()">Hay mình bắt đầu nhé? ♡</button></div>
+      <div class="actions"><button class="primary" onclick="setMusic(true);state.step=1;render()">Xem kế hoạch của anh →</button>
+      <button class="secondary" onclick="setMusic(true);state.step=1;render()">Hay mình bắt đầu nhé? ♡</button></div>
       <img class="cat-note" src="assets/cat.png" alt="">
       <div class="quote">“Đi đâu không quan trọng,<br>quan trọng là đi cùng ai...”</div>
     </div>`;
